@@ -1,21 +1,29 @@
-"use client";
-
+import ApiKeyComponent from "@/components/ApiKeyComponent";
 import Emails from "@/components/Emails";
 import Header from "@/components/Header";
 import { Login } from "@/components/Login";
 import HomeMain from "@/components/Main";
 import Sessionss from "@/components/Sessionss";
 import { Button } from "@/components/ui/button";
+import { getServerSession } from "next-auth";
 import { useSession } from "next-auth/react";
 import { useTheme } from "next-themes";
 
+async function getUser() {
+  const session = await getServerSession();
+  return session;
+}
 
-export default function Home() {
+
+export default async function Home() {
+  const session = await getUser();
 
   return (
     <main className="flex flex-col min-h-screen">
       <Header/>
-      <HomeMain/>
+      <div className="flex-1 flex flex-col items-center justify-center bg-gray-100 dark:bg-gray-950 py-12 px-6 md:px-8">
+        {session ? <ApiKeyComponent /> : <HomeMain />}
+      </div>
       <footer className="bg-gray-900 text-white py-4 px-6 md:px-8 text-center">
         <p className="text-sm">&copy; 2024 Mail Sorter. All rights reserved.</p>
       </footer>
