@@ -1,3 +1,4 @@
+import Emails from "@/components/Emails";
 import { Login } from "@/components/Login";
 import Sessionss from "@/components/Sessionss";
 
@@ -7,6 +8,7 @@ export default function Home() {
     <h1 className="text-3xl">Hello World</h1>
     <Login/>
     <Sessionss/>
+    <Emails/>
     </>
   );
 }
