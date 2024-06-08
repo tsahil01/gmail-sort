@@ -1,11 +1,22 @@
 "use client";
 
-import { LogInIcon, MailIcon } from "lucide-react";
+import { LogInIcon, LogOutIcon, MailIcon } from "lucide-react";
 import { Button } from "./ui/button";
 import { useTheme } from "next-themes";
+import { signIn, signOut, useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
 
 export default function Header() {
     const { theme, setTheme } = useTheme();
+    const session = useSession();
+    const [user, setUser] = useState<any>(null); // Provide an initial value for the user state variable
+
+    useEffect(() => {
+        if (session.data) {
+            setUser(session?.data?.user);
+        }
+    }
+    , [session]);
 
     const toggleTheme = () => {
         setTheme(theme === "light" ? "dark" : "light");
@@ -19,12 +30,29 @@ export default function Header() {
             </div>
 
             <div className="flex items-center gap-2">
-                <Button className="flex items-center justify-between gap-2 bg-white text-black hover:bg-gray-300">
+                {!user ? (
+                    <>
+                <Button className="flex items-center justify-between gap-2 bg-white text-black hover:bg-gray-300" onClick={()=>signIn("google")}>
+                    <>
                     <LogInIcon size={24} />
                     <div className="font-bold">
-                        Login with Google
+                    Login with Google
                     </div>
-                </Button>
+                    </>
+                </Button> 
+                    </>
+                    )
+                    : (
+                <Button className="flex items-center justify-between gap-2 bg-white text-black hover:bg-gray-300" onClick={()=>signOut()}>
+                    <>
+                    <LogOutIcon size={24} />
+                    <div className="font-bold">
+                    Logout
+                    </div>
+                    </>
+                </Button> 
+                    )}
+                
 
                 <Button onClick={toggleTheme} className="bg-white text-black hover:bg-gray-300">
                     {theme === "light" ? (
