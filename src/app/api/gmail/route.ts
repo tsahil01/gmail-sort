@@ -96,15 +96,15 @@ export async function POST(req: NextRequest) {
 
     const emails = await Promise.all(emailPromisesArray);
 
-    const extractedData = emails.map(({ subject, from, date }) => ({ subject, from, date }));
+    // const extractedData = emails.map(({ subject, from, date }) => ({ subject, from, date }));
 
-    const classifications = await runGemini(extractedData, reqData.apiKey || process.env.GEMINI_API_KEY || "");
+    // const classifications = await runGemini(extractedData, reqData.apiKey || process.env.GEMINI_API_KEY || "");
 
-    for (let i = 0; i < emails.length; i++) {
-      if (classifications && classifications[i] && classifications[i].classify) {
-        emails[i].classify = classifications[i].classify;
-      }
-    }
+    // for (let i = 0; i < emails.length; i++) {
+    //   if (classifications && classifications[i] && classifications[i].classify) {
+    //     emails[i].classify = classifications[i].classify;
+    //   }
+    // }
 
     return NextResponse.json({
       session: session,
