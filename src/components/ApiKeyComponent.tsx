@@ -6,11 +6,13 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from "./ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 import {  useToast } from "./ui/use-toast";
+import { useRouter } from "next/navigation";
 
 export default function ApiKeyComponent() {
     const [apiKey, setApiKey] = useState("");
     const [selectedProvider, setSelectedProvider] = useState("");
     const { toast } = useToast()
+    const router = useRouter();
 
     return (
         <div className="mx-auto max-w-md space-y-6 py-12">
@@ -57,6 +59,7 @@ export default function ApiKeyComponent() {
                                 title: "API Key Saved",
                                 description: "Your API key has been saved successfully.",
                               })
+                            router.push("/mails")
                             }
                         }>
                         Save API Key

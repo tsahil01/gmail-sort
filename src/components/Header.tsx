@@ -47,7 +47,12 @@ export default function Header() {
                     </>
                     )
                     : (
-                <Button className="flex items-center justify-between gap-2 bg-white text-black hover:bg-gray-300" onClick={()=>signOut()}>
+                <Button className="flex items-center justify-between gap-2 bg-white text-black hover:bg-gray-300" onClick={()=>{
+                    signOut()
+                    localStorage.removeItem("Gemini Key");
+                    localStorage.removeItem("Chat GPT Key");
+
+                }}>
                     <>
                     <LogOutIcon size={24} />
                     <div className="font-bold">
