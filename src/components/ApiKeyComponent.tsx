@@ -5,7 +5,7 @@ import { Button } from "./ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./ui/card";
 import { Input } from "./ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
-import {  useToast } from "./ui/use-toast";
+import { useToast } from "./ui/use-toast";
 import { useRouter } from "next/navigation";
 
 export default function ApiKeyComponent() {
@@ -25,12 +25,12 @@ export default function ApiKeyComponent() {
                     <CardTitle>API Key</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                    <div>If you dont have an API key, just select provider as Gemini and proceed.</div>
+                    <div>If you don&#39;t have an API key, just select provider as Gemini and proceed.</div>
                     <div className="space-y-2">
                         <form>
                             <div className="grid w-full items-center gap-4">
                                 <div className="flex flex-col space-y-1.5">
-                                    <Select onValueChange={(e)=>setSelectedProvider(e)}>
+                                    <Select onValueChange={(e) => setSelectedProvider(e)}>
                                         <SelectTrigger id="apiKey">
                                             <SelectValue placeholder="API Key Provider" />
                                         </SelectTrigger>
@@ -47,7 +47,7 @@ export default function ApiKeyComponent() {
                 </CardContent>
                 <CardFooter>
                     <Button type="button" className="w-full" onClick={
-                        () => { 
+                        () => {
                             if (selectedProvider === "") {
                                 toast({
                                     title: "API Key Error",
@@ -62,7 +62,7 @@ export default function ApiKeyComponent() {
                             })
                             router.push("/mails")
                         }
-                        }>
+                    }>
                         Save API Key
                     </Button>
                 </CardFooter>
