@@ -9,7 +9,7 @@ import {  useToast } from "./ui/use-toast";
 import { useRouter } from "next/navigation";
 
 export default function ApiKeyComponent() {
-    const [apiKey, setApiKey] = useState("");
+    const [apiKey, setApiKey] = useState(process.env.GEMINI_API_KEY);
     const [selectedProvider, setSelectedProvider] = useState("");
     const { toast } = useToast()
     const router = useRouter();
@@ -25,6 +25,7 @@ export default function ApiKeyComponent() {
                     <CardTitle>API Key</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
+                    <div>If you dont have an API key, just select provider as Gemini and proceed.</div>
                     <div className="space-y-2">
                         <form>
                             <div className="grid w-full items-center gap-4">
@@ -35,7 +36,7 @@ export default function ApiKeyComponent() {
                                         </SelectTrigger>
                                         <SelectContent position="popper">
                                             <SelectItem value="Gemini">Gemini</SelectItem>
-                                            <SelectItem value="GPT">Chat GPT</SelectItem>
+                                            {/* <SelectItem value="GPT">Chat GPT</SelectItem> */}
                                         </SelectContent>
                                     </Select>
                                 </div>
@@ -47,20 +48,20 @@ export default function ApiKeyComponent() {
                 <CardFooter>
                     <Button type="button" className="w-full" onClick={
                         () => { 
-                            if (selectedProvider === "" || apiKey === "") {
+                            if (selectedProvider === "") {
                                 toast({
                                     title: "API Key Error",
-                                    description: "Please select a provider and enter your API key.",
-                                  })
+                                    description: "Please select a provider",
+                                })
                                 return
                             }
-                            localStorage.setItem(`${selectedProvider} Key`, apiKey)
+                            localStorage.setItem(`${selectedProvider} Key`, apiKey ?? "") // Provide a default value for apiKey using the nullish coalescing operator
                             toast({
                                 title: "API Key Saved",
                                 description: "Your API key has been saved successfully.",
-                              })
+                            })
                             router.push("/mails")
-                            }
+                        }
                         }>
                         Save API Key
                     </Button>
