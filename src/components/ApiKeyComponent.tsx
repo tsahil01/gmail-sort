@@ -25,7 +25,7 @@ export default function ApiKeyComponent() {
                     <CardTitle>API Key</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                    <div>If you dont have an API key, just select provider as Gemini and proceed.</div>
+                    <div>If you dont have an API key, I have attatched it in Readme.md</div>
                     <div className="space-y-2">
                         <form>
                             <div className="grid w-full items-center gap-4">
@@ -52,6 +52,13 @@ export default function ApiKeyComponent() {
                                 toast({
                                     title: "API Key Error",
                                     description: "Please select a provider",
+                                })
+                                return
+                            }
+                            if (apiKey === "") {
+                                toast({
+                                    title: "API Key Error",
+                                    description: "Please enter an API key",
                                 })
                                 return
                             }
