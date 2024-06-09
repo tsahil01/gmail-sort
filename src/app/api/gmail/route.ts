@@ -35,16 +35,17 @@ async function getImpData(email: gmail_v1.Schema$Message) {
   const date = headers.find((header) => header.name === 'Date')?.value || '';
   const read = email.labelIds?.includes('UNREAD') ? "Unread" : "Read";
 
-  let body = "";
+  let htmlBody = "";
 
-  if (email.payload?.body?.size && email.payload.body.data) {
-    body = Buffer.from(email.payload.body.data, 'base64').toString('utf-8');
+  if (email.payload?.body?.size && email.payload.body.data && email.payload.mimeType === 'text/html') {
+    htmlBody = Buffer.from(email.payload.body.data, 'base64').toString('utf-8');
   } else if (email.payload?.parts) {
     for (const part of email.payload.parts) {
       // @ts-ignore
-      if (part.body.size && part.body.data) {
+      if (part.body.size && part.body.data && part.mimeType === 'text/html') {
         // @ts-ignore
-        body += Buffer.from(part.body.data, 'base64').toString('utf-8');
+        htmlBody = Buffer.from(part.body.data, 'base64').toString('utf-8');
+        break; // Stop after finding the first HTML part
       }
     }
   }
@@ -53,7 +54,7 @@ async function getImpData(email: gmail_v1.Schema$Message) {
     subject,
     from,
     date,
-    body,
+    htmlBody,
     read,
     classify: ""
   };
