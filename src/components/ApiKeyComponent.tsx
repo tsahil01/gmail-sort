@@ -18,7 +18,7 @@ export default function ApiKeyComponent() {
         <div className="mx-auto max-w-md space-y-6 py-12">
             <div className="space-y-2 text-center">
                 <h1 className="text-3xl font-bold">Enter Your API Key</h1>
-                <p className="text-gray-500 dark:text-gray-400">Provide your API key to access our platform's features.</p>
+                <p className="text-gray-500 dark:text-gray-400">Provide your API key to access our platforms features.</p>
             </div>
             <Card>
                 <CardHeader>
