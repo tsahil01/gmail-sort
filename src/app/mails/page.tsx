@@ -36,7 +36,7 @@ export default function Home() {
               headers: {
                 "Content-Type": "application/json",
               },
-              body: JSON.stringify({ apiKey: apiKey }),
+              body: JSON.stringify({ apiKey: localStorage.getItem("Gemini Key") }), // use localStorage to get apiKey
             });
             const data = await res.json();
             console.log("Data: ", data.emailResponse);
@@ -60,7 +60,7 @@ export default function Home() {
         });
       }
     }
-  }, [session.status]);
+  }, [session.status, router, toast, apiKey]);
 
   return (
     <main className="flex flex-col min-h-screen">
