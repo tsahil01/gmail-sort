@@ -91,7 +91,7 @@ export async function POST(req: NextRequest) {
         // @ts-ignore
       const email = await gmail.users.messages.get({ userId: 'me', id: message.id });
     //   @ts-ignore
-      return getImpData(email.data, 100);
+      return getImpData(email.data, 10000000);
     });
 
     const emails = await Promise.all(emailPromisesArray);
