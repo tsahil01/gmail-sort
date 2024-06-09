@@ -1,13 +1,8 @@
 import ApiKeyComponent from "@/components/ApiKeyComponent";
-import Emails from "@/components/Emails";
 import Header from "@/components/Header";
-import { Login } from "@/components/Login";
-import HomeMain from "@/components/Main";
-import Sessionss from "@/components/Sessionss";
-import { Button } from "@/components/ui/button";
+import HomeMain from "@/components/Main";;
 import { getServerSession } from "next-auth";
-import { useSession } from "next-auth/react";
-import { useTheme } from "next-themes";
+
 
 async function getUser() {
   const session = await getServerSession();
