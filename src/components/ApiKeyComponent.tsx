@@ -25,7 +25,7 @@ export default function ApiKeyComponent() {
                     <CardTitle>API Key</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                    <div>If you don&#39;t have an API key, just select provider as Gemini and proceed.</div>
+                    <div>If you dont have an API key, just select provider as Gemini and proceed.</div>
                     <div className="space-y-2">
                         <form>
                             <div className="grid w-full items-center gap-4">
