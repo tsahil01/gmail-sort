@@ -3,6 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
 import { LucideChevronLeft, LucideMailOpen, LucideRefreshCcw, LucideSearch, LucideX } from "lucide-react";
+import { runGemini } from "@/lib/gemini";
+import { useToast } from "./ui/use-toast";
 
 interface Email {
   date: string;
@@ -29,6 +31,8 @@ export default function EmailComponent({ data: initialData }: EmailsProps) {
   const [sortColumn, setSortColumn] = useState<keyof Email>("date");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
   const [data, setData] = useState<Email[]>(initialData);
+  const [loader, setLoader] = useState<boolean>(false);
+  const { toast } = useToast();
 
   const filteredData = useMemo(() => {
     return data.filter(
@@ -62,6 +66,33 @@ export default function EmailComponent({ data: initialData }: EmailsProps) {
 
   const handleRefresh = () => {
     // Add your refresh logic here
+    
+  };
+
+  const handleClassify = async () => {
+    setLoader(true);
+    console.log("Classifying...");
+    toast({
+      title: "Classifying Emails",
+      description: "This may take a few seconds...",
+    })
+    const newData = data;
+    const extractedData = newData.map(({ subject, from, date }) => ({ subject, from, date }));
+    const classifications = await runGemini(extractedData, localStorage.getItem("Gemini Key") || "");
+
+    console.log("classifications", classifications);
+    for (let i = 0; i < newData.length; i++) {
+      if (classifications && classifications[i] && classifications[i].classify) {
+        newData[i].classify = classifications[i].classify;
+      }
+    }
+    console.log("Classified Data", newData);
+    toast({
+      title: "Emails Classified",
+      description: "Emails have been classified successfully.",
+    })
+    setData(newData);
+    setLoader(false);
   };
 
   const [showCard, setShowCard] = useState<boolean>(false);
@@ -98,9 +129,12 @@ export default function EmailComponent({ data: initialData }: EmailsProps) {
             />
           </div>
         </div>
-        <Button onClick={handleRefresh}>
-          <LucideRefreshCcw className="h-5 w-5" />
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button onClick={ ()=> handleClassify() }>Classify</Button>
+          <Button onClick={handleRefresh}>
+            <LucideRefreshCcw className="h-5 w-5" />
+          </Button>
+        </div>
       </header>
       <main className="flex-1 overflow-auto p-4md:p-6">
         <div className="bg-white dark:bg-zinc-900 rounded-lg shadow-lg">
