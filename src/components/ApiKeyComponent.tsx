@@ -24,7 +24,6 @@ export default function ApiKeyComponent() {
                 </CardHeader>
                 <CardContent className="space-y-4">
                     <div className="space-y-2">
-                        <Input id="api-key" type="text" placeholder="Enter your API key" required autoComplete="off" onChange={(e) => setApiKey(e.target.value)} />
                         <form>
                             <div className="grid w-full items-center gap-4">
                                 <div className="flex flex-col space-y-1.5">
@@ -40,11 +39,19 @@ export default function ApiKeyComponent() {
                                 </div>
                             </div>
                         </form>
+                        <Input id="api-key" type="text" placeholder="Enter your API key" required autoComplete="off" onChange={(e) => setApiKey(e.target.value)} />
                     </div>
                 </CardContent>
                 <CardFooter>
                     <Button type="button" className="w-full" onClick={
                         () => { 
+                            if (selectedProvider === "" || apiKey === "") {
+                                toast({
+                                    title: "API Key Error",
+                                    description: "Please select a provider and enter your API key.",
+                                  })
+                                return
+                            }
                             localStorage.setItem(`${selectedProvider} Key`, apiKey)
                             toast({
                                 title: "API Key Saved",

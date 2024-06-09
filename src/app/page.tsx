@@ -21,10 +21,10 @@ export default async function Home() {
   return (
     <main className="flex flex-col min-h-screen">
       <Header/>
-      <div className="flex-1 flex flex-col items-center justify-center bg-gray-100 dark:bg-gray-950 py-12 px-6 md:px-8">
+      <div className="flex-1 flex flex-col items-center justify-center bg-gray-100 dark:bg-zinc-950 py-12 px-6 md:px-8">
         {session ? <ApiKeyComponent /> : <HomeMain />}
       </div>
-      <footer className="bg-gray-900 text-white py-4 px-6 md:px-8 text-center">
+      <footer className="bg-zinc-900 text-white py-4 px-6 md:px-8 text-center border-t">
         <p className="text-sm">&copy; 2024 Mail Sorter. All rights reserved.</p>
       </footer>
     </main>
