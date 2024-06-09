@@ -1,5 +1,3 @@
-"use client"
-
 import { useState, useMemo, ChangeEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -148,50 +146,51 @@ export default function EmailComponent({ data: initialData }: EmailsProps) {
 
                 <TableHead className="px-4 py-3 font-bold text-xl">Open</TableHead>
               </TableRow>
-            </TableHeader>
-
-            <TableBody>
-              {sortedData.map((item, index) => (
-                <TableRow
-                  key={index}
-                  className={`border-b border-gray-200 transition-colors duration-300 text-lg`}
-                >
-                  <TableCell className="px-4 py-3">{formatDate(item.date)}</TableCell>
-                  <TableCell className="px-4 py-3">{item.from}</TableCell>
-                  <TableCell className="px-4 py-3">{item.subject}</TableCell>
-                  <TableCell className="px-4 py-3">{(item.classify).toLocaleUpperCase()}</TableCell>
-                  <TableCell className="px-4 py-3">
-                    <Button variant="ghost" size="icon" onClick={() => handleOpenCard(item)}>
-                      <LucideMailOpen className="h-5 w-5" />
+              </TableHeader>
+                  <TableBody>
+                    {sortedData.map((item, index) => (
+                      <TableRow
+                        key={index}
+                        className={`border-b border-gray-200 transition-colors duration-300 text-lg`}
+                      >
+                        <TableCell className="px-4 py-3">{formatDate(item.date)}</TableCell>
+                        <TableCell className="px-4 py-3">{item.from}</TableCell>
+                        <TableCell className="px-4 py-3">{item.subject}</TableCell>
+                        <TableCell className="px-4 py-3">{(item.classify).toLocaleUpperCase()}</TableCell>
+                        <TableCell className="px-4 py-3">
+                          <Button variant="ghost" size="icon" onClick={() => handleOpenCard(item)}>
+                            <LucideMailOpen className="h-5 w-5" />
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                  </Table>
+                  </div>
+                  </main>
+                  {showCard && selectedEmail && (
+                  <div className="fixed inset-0 flex items-center justify-center z-50 bg-zinc-900 bg-opacity-50">
+                  <div className="bg-white dark:bg-zinc-950 rounded-lg shadow-lg w-full max-w-2xl p-4 md:p-6">
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="w-full">
+                      <div className="flex flex-col w-full justify-between">
+                        <h3 className="text-xl font-medium text-gray-900 dark:text-gray-100">{selectedEmail.subject}</h3>
+                        <h3 className="font-bold text-gray-900 dark:text-gray-100">{selectedEmail.classify}</h3>
+                      </div>
+                      <p className="text-gray-500 dark:text-gray-400">From: {selectedEmail.from}</p>
+                    </div>
+                    <Button variant="ghost" size="icon" onClick={handleCloseCard}>
+                      <LucideX className="h-5 w-5" />
                     </Button>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </div>
-      </main>
-      {showCard && selectedEmail && (
-        <div className="fixed inset-0 flex items-center justify-center z-50 bg-zinc-900 bg-opacity-50">
-          <div className="bg-white dark:bg-zinc-950 rounded-lg shadow-lg w-full max-w-2xl p-4 md:p-6">
-            <div className="flex items-center justify-between mb-4">
-              <div className="w-full">
-                <div className="flex flex-col w-full justify-between">
-                  <h3 className="text-xl font-medium text-gray-900 dark:text-gray-100">{selectedEmail.subject}</h3>
-                  <h3 className="font-bold text-gray-900 dark:text-gray-100">{selectedEmail.classify}</h3>
-                </div>
-                <p className="text-gray-500 dark:text-gray-400">From: {selectedEmail.from}</p>
-              </div>
-              <Button variant="ghost" size="icon" onClick={handleCloseCard}>
-                <LucideX className="h-5 w-5" />
-              </Button>
-            </div>
-            <div className="prose prose-sm prose-gray dark:prose-invert">
-              <p>{selectedEmail.body}</p>
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-}
+                  </div>
+                  <div className="prose prose-sm prose-gray dark:prose-invert">
+                    <div dangerouslySetInnerHTML={{ __html: selectedEmail.body }}></div>
+                  </div>
+                  </div>
+                  </div>
+                  )}
+                  </div>
+                  );
+                  }
+
+           

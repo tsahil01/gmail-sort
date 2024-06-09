@@ -28,7 +28,7 @@ interface Email {
   labelIds?: string[];
 }
 
-async function getImpData(email: gmail_v1.Schema$Message, maxLength: number) {
+async function getImpData(email: gmail_v1.Schema$Message) {
   const headers = email.payload?.headers || [];
   const subject = headers.find((header) => header.name === 'Subject')?.value || '';
   const from = headers.find((header) => header.name === 'From')?.value || '';
@@ -39,20 +39,14 @@ async function getImpData(email: gmail_v1.Schema$Message, maxLength: number) {
 
   if (email.payload?.body?.size && email.payload.body.data) {
     body = Buffer.from(email.payload.body.data, 'base64').toString('utf-8');
-    // Remove HTML tags
-    body = body.replace(/<[^>]*>\r\n/g, '');
-    // Truncate the body text if it exceeds maxLength
-    body = body.length > maxLength ? body.substring(0, maxLength) + "..." : body;
   } else if (email.payload?.parts) {
-    email.payload.parts.forEach((part) => {
+    for (const part of email.payload.parts) {
+      // @ts-ignore
+      if (part.body.size && part.body.data) {
         // @ts-ignore
-      if (part.body.size > 0 && part.body.data) {
-        // @ts-ignore
-        let partBody = Buffer.from(part.body.data, 'base64').toString('utf-8');
-        partBody = partBody.replace(/<[^>]*>/g, '');
-        body += partBody.length > maxLength ? partBody.substring(0, maxLength) + "..." : partBody;
+        body += Buffer.from(part.body.data, 'base64').toString('utf-8');
       }
-    });
+    }
   }
 
   return {
@@ -91,7 +85,7 @@ export async function POST(req: NextRequest) {
         // @ts-ignore
       const email = await gmail.users.messages.get({ userId: 'me', id: message.id });
     //   @ts-ignore
-      return getImpData(email.data, 10000000);
+      return getImpData(email.data);
     });
 
     const emails = await Promise.all(emailPromisesArray);
